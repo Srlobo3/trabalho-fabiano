@@ -1,70 +1,65 @@
-# 📌 Projeto de Sistema de Login + Dashboard (PHP + MySQL + JS)
+# 📌 Sistema de Login + Dashboard com Mensagens e Foto de Perfil
 
 ## 🧠 Sobre o Projeto
 
-Este projeto é um sistema simples de:
+Este projeto é um sistema web completo que permite:
 
-* Cadastro de usuários
-* Login
-* Dashboard com mensagens
-* Envio e listagem de mensagens
-* Limpar todas as mensagens
+* Cadastro de usuários com foto de perfil
+* Login seguro com senha criptografada
+* Dashboard com envio de mensagens
+* Visualização de mensagens de todos os usuários (feed global)
+* Exclusão das próprias mensagens
 
-Ele foi feito usando:
+Tecnologias utilizadas:
 
 * **PHP** (backend)
 * **MySQL** (banco de dados)
-* **JavaScript** (validação)
-* **CSS** (estilo visual)
+* **JavaScript** (validações e interação)
+* **CSS** (interface)
 
 ---
 
-## ⚙️ Como funciona (visão geral)
+## ⚙️ Funcionalidades
 
 ### 🔐 Cadastro
 
-O usuário cria uma conta com:
-
-* Nome (sem números)
-* Email
-* Senha
-
-A senha é **criptografada** antes de salvar no banco.
+* Cadastro com **nome, email, senha e foto de perfil**
+* Senha armazenada com **criptografia (`password_hash`)**
+* Validação para impedir **emails duplicados**
+* Upload opcional de imagem (com imagem padrão)
 
 ---
 
 ### 🔑 Login
 
-O usuário faz login com:
-
-* Email
-* Senha
-
-Se estiver correto:
-➡️ entra no dashboard
-
-Se estiver errado:
-➡️ aparece erro na tela
+* Autenticação com email e senha
+* Verificação usando **`password_verify`**
+* Sessão iniciada ao logar
+* Redirecionamento automático para o dashboard
 
 ---
 
 ### 📊 Dashboard
 
-Depois de logar, o usuário pode:
+* Envio de mensagens (máximo 250 caracteres)
+* Contador de caracteres em tempo real
+* Visualização de todas as mensagens (feed global)
+* Exibição de:
 
-* Escrever mensagens (máx 250 caracteres)
-* Ver suas mensagens
-* Apagar todas as mensagens
-* Fazer logout
+  * 🖼️ Foto de perfil
+  * 👤 Nome do usuário
+  * 💬 Mensagem
+* Botão para apagar **apenas suas mensagens**
+* Logout do sistema
 
 ---
 
-## 🗂️ Estrutura de Arquivos
+## 🗂️ Estrutura do Projeto
 
 ```
 /projeto
 │
-├── php/
+├── /php
 │   ├── config.php
 │   ├── login.php
 │   ├── register.php
@@ -73,13 +68,16 @@ Depois de logar, o usuário pode:
 │   ├── clear_messages.php
 │   └── logout.php
 │
-├── css/
+├── /css
 │   ├── style.css
 │   ├── style2.css
 │   └── dashboard.css
 │
-├── js/
+├── /js
 │   └── script.js
+│
+├── /uploads
+│   └── default.png
 ```
 
 ---
@@ -89,10 +87,11 @@ Depois de logar, o usuário pode:
 ### 🧑‍💻 Tabela `users`
 
 ```sql
-id INT AUTO_INCREMENT PRIMARY KEY
-nome VARCHAR(100)
-email VARCHAR(100)
-senha VARCHAR(255)
+id INT AUTO_INCREMENT PRIMARY KEY,
+nome VARCHAR(100),
+email VARCHAR(100) UNIQUE,
+senha VARCHAR(255),
+foto VARCHAR(255) DEFAULT 'default.png'
 ```
 
 ---
@@ -100,36 +99,37 @@ senha VARCHAR(255)
 ### 💬 Tabela `messages`
 
 ```sql
-id INT AUTO_INCREMENT PRIMARY KEY
-user_id INT
+id INT AUTO_INCREMENT PRIMARY KEY,
+user_id INT,
 mensagem VARCHAR(250)
 ```
 
 ---
 
-## 🔒 Segurança implementada
+## 🔒 Segurança
 
-* Senha criptografada (`password_hash`)
-* Verificação de login com sessão
-* Bloqueio de acesso direto ao dashboard
-* Limite de caracteres nas mensagens
-
----
-
-## 🧪 Validações (JavaScript)
-
-### Login
-
-* Email precisa ter `@` e `.`
-* Senha mínima de 3 caracteres
+* Senhas protegidas com **hash**
+* Validação de dados no frontend (JS)
+* Controle de sessão para acesso ao dashboard
+* Restrição de mensagens a 250 caracteres
+* Prevenção de cadastro com email duplicado
 
 ---
+
+## 🧪 Validações
 
 ### Cadastro
 
-* Nome não pode ter números
+* Nome não pode conter números
+* Email deve ser válido
+* Senha com mínimo de 4 caracteres
+
+---
+
+### Login
+
 * Email válido
-* Senha mínimo 4 caracteres
+* Senha mínima de 3 caracteres
 
 ---
 
@@ -137,86 +137,74 @@ mensagem VARCHAR(250)
 
 * Não pode estar vazia
 * Máximo de 250 caracteres
-* Contador em tempo real (ex: `120/250`)
+* Contador dinâmico exibido na tela
 
 ---
 
-## 🎨 Interface (CSS)
+## 🎨 Interface
 
-O design é:
-
-* Limpo
-* Centralizado
-* Cores suaves (verde e azul)
+* Design moderno e limpo
+* Inputs com efeito de foco
 * Botões com animação
-* Feedback visual nos inputs
+* Layout centralizado
+* Exibição organizada das mensagens
+* Fotos de perfil em formato circular
 
 ---
 
-## 🔄 Fluxo do sistema
+## 🔄 Funcionamento do Sistema
 
-1. Usuário acessa cadastro
-2. Cria conta
-3. Vai para login
-4. Faz login
-5. Entra no dashboard
-6. Envia mensagens
-7. Pode limpar tudo ou sair
-
----
-
-## 🚨 Possíveis erros comuns
-
-### ❌ CSS não aplica
-
-* Caminho errado do arquivo
-* Nome digitado errado
+1. Usuário se cadastra (com ou sem foto)
+2. Faz login
+3. Acessa o dashboard
+4. Envia mensagens
+5. Visualiza mensagens de todos os usuários
+6. Pode apagar suas próprias mensagens
+7. Pode sair do sistema
 
 ---
 
-### ❌ JS não funciona
+## 🚀 Como Executar
 
-* `script.js` não carregado
-* função não chamada no `onsubmit`
-
----
-
-### ❌ Mensagem não envia
-
-* erro na validação JS
-* nome do arquivo errado (`-` vs `_`)
-
----
-
-### ❌ Sessão não funciona
-
-* faltando `session_start()` no `config.php`
-
-
-
-## 👨‍💻 Para rodar o projeto
-
-1. Instale um servidor (XAMPP, WAMP, etc)
+1. Instale um servidor local (ex: XAMPP)
 2. Coloque o projeto na pasta `htdocs`
-3. Crie o banco de dados
-4. Configure o `config.php`
+3. Crie o banco de dados e tabelas
+4. Configure o arquivo `config.php`
 5. Acesse no navegador:
 
 ```
-http://localhost/projeto/php/login.php
+http://localhost/ruan e ikaro/php/login.php
 ```
+
+---
+
+## 🎯 Resultado Final
+
+O sistema funciona como uma **mini rede social**, onde:
+
+* Usuários possuem identidade (nome + foto)
+* Interagem através de mensagens
+* Visualizam conteúdo compartilhado em um feed comum
+
+---
+
+## 🔥 Possíveis Evoluções
+
+* Edição de perfil (trocar foto)
+* Curtidas em mensagens
+* Comentários
+* Upload com preview de imagem
+* Chat em tempo real
 
 ---
 
 ## ✅ Conclusão
 
-Esse projeto é ótimo para aprender:
+Este projeto reúne conceitos importantes de desenvolvimento web:
 
-* CRUD básico
-* Sessões em PHP
-* Integração com banco
-* Validação com JavaScript
-* Organização de sistema web
-
----
+* Autenticação de usuários
+* Manipulação de banco de dados
+* Upload de arquivos
+* Validação de dados
+* Organização de sistema completo
 
