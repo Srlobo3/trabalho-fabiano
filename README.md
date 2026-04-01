@@ -1,210 +1,125 @@
-# 📌 Sistema de Login + Dashboard com Mensagens e Foto de Perfil
+# Documentação do Sistema – Site de Mensagens
 
-## 🧠 Sobre o Projeto
+## 1. Visão Geral
 
-Este projeto é um sistema web completo que permite:
+Este sistema é um site simples que permite aos usuários:
 
-* Cadastro de usuários com foto de perfil
-* Login seguro com senha criptografada
-* Dashboard com envio de mensagens
-* Visualização de mensagens de todos os usuários (feed global)
-* Exclusão das próprias mensagens
+* Se cadastrarem com nome, e-mail, senha e foto
+* Escreverem mensagens
+* Visualizarem mensagens de outros usuários
 
-Tecnologias utilizadas:
-
-* **PHP** (backend)
-* **MySQL** (banco de dados)
-* **JavaScript** (validações e interação)
-* **CSS** (interface)
+Todo o funcionamento ocorre em uma única página, sem necessidade de um sistema de login separado.
 
 ---
 
-## ⚙️ Funcionalidades
+## 2. Como utilizar o site
 
-### 🔐 Cadastro
+### 2.1 Preenchimento dos dados
 
-* Cadastro com **nome, email, senha e foto de perfil**
-* Senha armazenada com **criptografia (`password_hash`)**
-* Validação para impedir **emails duplicados**
-* Upload opcional de imagem (com imagem padrão)
+Ao acessar o site, o usuário encontrará um formulário com os seguintes campos:
 
----
-
-### 🔑 Login
-
-* Autenticação com email e senha
-* Verificação usando **`password_verify`**
-* Sessão iniciada ao logar
-* Redirecionamento automático para o dashboard
+* Nome: deve conter apenas letras (sem números ou caracteres especiais)
+* Email: não pode ser repetido com dados diferentes
+* Senha: deve possuir no mínimo 4 caracteres
+* Foto: campo opcional
+* Mensagem: texto que será exibido no site
 
 ---
 
-### 📊 Dashboard
+### 2.2 Envio da mensagem
 
-* Envio de mensagens (máximo 250 caracteres)
-* Contador de caracteres em tempo real
-* Visualização de todas as mensagens (feed global)
-* Exibição de:
+Após preencher os campos:
 
-  * 🖼️ Foto de perfil
-  * 👤 Nome do usuário
-  * 💬 Mensagem
-* Botão para apagar **apenas suas mensagens**
-* Logout do sistema
+1. Clique no botão "Enviar"
+2. A mensagem será exibida na lista abaixo do formulário
 
 ---
 
-## 🗂️ Estrutura do Projeto
+## 3. Regras do sistema
 
-```
-/projeto
-│
-├── /php
-│   ├── config.php
-│   ├── login.php
-│   ├── register.php
-│   ├── dashboard.php
-│   ├── save_message.php
-│   ├── clear_messages.php
-│   └── logout.php
-│
-├── /css
-│   ├── style.css
-│   ├── style2.css
-│   └── dashboard.css
-│
-├── /js
-│   └── script.js
-│
-├── /uploads
-│   └── default.png
-```
+### 3.1 Cadastro de usuário
+
+* Se o e-mail não existir no sistema, um novo usuário será criado
+* Se o e-mail já existir:
+
+  * Nome e senha corretos: o usuário pode enviar mensagens normalmente
+  * Nome ou senha incorretos: o sistema bloqueia a ação
 
 ---
 
-## 🧾 Banco de Dados
+### 3.2 Persistência de dados
 
-### 🧑‍💻 Tabela `users`
-
-```sql
-id INT AUTO_INCREMENT PRIMARY KEY,
-nome VARCHAR(100),
-email VARCHAR(100) UNIQUE,
-senha VARCHAR(255),
-foto VARCHAR(255) DEFAULT 'default.png'
-```
+* O sistema armazena temporariamente os dados do usuário
+* Ao retornar à página, nome e e-mail permanecem preenchidos
+* Não é necessário inserir os dados novamente a cada acesso
 
 ---
 
-### 💬 Tabela `messages`
+### 3.3 Imagem de perfil
 
-```sql
-id INT AUTO_INCREMENT PRIMARY KEY,
-user_id INT,
-mensagem VARCHAR(250)
-```
+* Se o usuário enviar uma imagem, ela será utilizada nas mensagens
+* Caso contrário, será utilizada uma imagem padrão
+* A imagem é exibida junto com cada mensagem
 
 ---
 
-## 🔒 Segurança
+### 3.4 Mensagens
 
-* Senhas protegidas com **hash**
-* Validação de dados no frontend (JS)
-* Controle de sessão para acesso ao dashboard
-* Restrição de mensagens a 250 caracteres
-* Prevenção de cadastro com email duplicado
+* Usuários válidos podem enviar mensagens
+* As mensagens são exibidas em ordem decrescente (mais recentes primeiro)
+* Cada mensagem apresenta:
 
----
-
-## 🧪 Validações
-
-### Cadastro
-
-* Nome não pode conter números
-* Email deve ser válido
-* Senha com mínimo de 4 caracteres
+  * Nome do usuário
+  * Imagem de perfil
+  * Conteúdo da mensagem
 
 ---
 
-### Login
+## 4. Tratamento de erros
 
-* Email válido
-* Senha mínima de 3 caracteres
+### 4.1 E-mail já cadastrado
 
----
+Mensagem exibida:
+"Email já cadastrado com dados diferentes"
 
-### Mensagens
+Significado:
 
-* Não pode estar vazia
-* Máximo de 250 caracteres
-* Contador dinâmico exibido na tela
+* O e-mail já existe no sistema
+* Os dados informados não correspondem ao cadastro original
 
----
+Solução:
 
-## 🎨 Interface
-
-* Design moderno e limpo
-* Inputs com efeito de foco
-* Botões com animação
-* Layout centralizado
-* Exibição organizada das mensagens
-* Fotos de perfil em formato circular
+* Utilizar o mesmo nome e senha previamente cadastrados
 
 ---
 
-## 🔄 Funcionamento do Sistema
+### 4.2 Campos obrigatórios
 
-1. Usuário se cadastra (com ou sem foto)
-2. Faz login
-3. Acessa o dashboard
-4. Envia mensagens
-5. Visualiza mensagens de todos os usuários
-6. Pode apagar suas próprias mensagens
-7. Pode sair do sistema
+* O envio pode falhar se campos essenciais não forem preenchidos, como nome ou mensagem
 
 ---
 
-## 🚀 Como Executar
+## 5. Estrutura do projeto
 
-1. Instale um servidor local (ex: XAMPP)
-2. Coloque o projeto na pasta `htdocs`
-3. Crie o banco de dados e tabelas
-4. Configure o arquivo `config.php`
-5. Acesse no navegador:
-
-```
-http://localhost/ruan e ikaro/php/login.php
-```
+* index.php: arquivo principal contendo toda a lógica do sistema
+* css/: arquivos de estilo
+* js/: scripts de validação e interação
+* uploads/: armazenamento das imagens dos usuários
 
 ---
 
-## 🎯 Resultado Final
+## 6. Funcionamento técnico (resumo)
 
-O sistema funciona como uma **mini rede social**, onde:
-
-* Usuários possuem identidade (nome + foto)
-* Interagem através de mensagens
-* Visualizam conteúdo compartilhado em um feed comum
-
----
-
-## 🔥 Possíveis Evoluções
-
-* Edição de perfil (trocar foto)
-* Curtidas em mensagens
-* Comentários
-* Upload com preview de imagem
-* Chat em tempo real
+* Utiliza banco de dados MySQL
+* As senhas são armazenadas de forma criptografada
+* Utiliza sessões para manter os dados do usuário
+* Evita duplicação de e-mails
+* Garante consistência nas informações cadastradas
 
 ---
 
-## ✅ Conclusão
+## 7. Conclusão
 
-Este projeto reúne conceitos importantes de desenvolvimento web:
+O sistema foi desenvolvido com o objetivo de ser simples, funcional e acessível, permitindo o cadastro de usuários e a publicação de mensagens de forma direta, sem necessidade de autenticação complexa.
 
-* Autenticação de usuários
-* Manipulação de banco de dados
-* Upload de arquivos
-* Validação de dados
-* Organização de sistema completo
-
+Para utilizar, basta preencher o formulário e enviar uma mensagem.
