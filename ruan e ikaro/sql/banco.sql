@@ -1,20 +1,23 @@
-
-CREATE DATABASE IF NOT EXISTS app_php;
-
-
-USE site_mensagem;
+CREATE DATABASE app_php;
+USE app_php;
 
 
-CREATE TABLE IF NOT EXISTS users (
+CREATE TABLE users (
     id INT AUTO_INCREMENT PRIMARY KEY,
     nome VARCHAR(100) NOT NULL,
-    email VARCHAR(150) NOT NULL,
+    email VARCHAR(100) NOT NULL UNIQUE,
     senha VARCHAR(255) NOT NULL,
-    foto VARCHAR(255)
+    foto VARCHAR(255) DEFAULT 'uploads/default.png'
 );
 
 
-CREATE TABLE IF NOT EXISTS messages (
+CREATE TABLE messages (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    nome VARCHAR(100) NOT NULL,
+    mensagem TEXT NOT NULL,
+    foto VARCHAR(255) NOT NULL,
+    data_envio TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);XISTS messages (
     id INT AUTO_INCREMENT PRIMARY KEY,
     nome VARCHAR(100) NOT NULL,
     mensagem TEXT NOT NULL,
