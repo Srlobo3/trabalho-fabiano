@@ -42,20 +42,12 @@ Após preencher os campos:
 * Se o e-mail não existir no sistema, um novo usuário será criado
 * Se o e-mail já existir:
 
-  * Nome e senha corretos: o usuário pode enviar mensagens normalmente
-  * Nome ou senha incorretos: o sistema bloqueia a ação
+ o sistema bloqueia a ação
 
 ---
 
-### 3.2 Persistência de dados
 
-* O sistema armazena temporariamente os dados do usuário
-* Ao retornar à página, nome e e-mail permanecem preenchidos
-* Não é necessário inserir os dados novamente a cada acesso
-
----
-
-### 3.3 Imagem de perfil
+### 3.2 Imagem de perfil
 
 * Se o usuário enviar uma imagem, ela será utilizada nas mensagens
 * Caso contrário, será utilizada uma imagem padrão
@@ -63,7 +55,7 @@ Após preencher os campos:
 
 ---
 
-### 3.4 Mensagens
+### 3.3 Mensagens
 
 * Usuários válidos podem enviar mensagens
 * As mensagens são exibidas em ordem decrescente (mais recentes primeiro)
@@ -85,11 +77,7 @@ Mensagem exibida:
 Significado:
 
 * O e-mail já existe no sistema
-* Os dados informados não correspondem ao cadastro original
 
-Solução:
-
-* Utilizar o mesmo nome e senha previamente cadastrados
 
 ---
 
