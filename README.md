@@ -1,113 +1,148 @@
-# Documentação do Sistema – Site de Mensagens
+# Sistema de Mensagens com PHP e MySQL
 
-## 1. Visão Geral
+## 1. Descrição
 
-Este sistema é um site simples que permite aos usuários:
-
-* Se cadastrarem com nome, e-mail, senha e foto
-* Escreverem mensagens
-* Visualizarem mensagens de outros usuários
-
-Todo o funcionamento ocorre em uma única página, sem necessidade de um sistema de login separado.
+Sistema web desenvolvido em PHP com banco de dados MySQL. Permite cadastro de usuários, autenticação, envio de mensagens e visualização em formato de feed.
 
 ---
 
-## 2. Como utilizar o site
+## 2. Tecnologias Utilizadas
 
-### 2.1 Preenchimento dos dados
-
-Ao acessar o site, o usuário encontrará um formulário com os seguintes campos:
-
-* Nome: deve conter apenas letras (sem números ou caracteres especiais)
-* Email: não pode ser repetido com dados diferentes
-* Senha: deve possuir no mínimo 4 caracteres
-* Foto: campo opcional
-* Mensagem: texto que será exibido no site
+- PHP
+- MySQL
+- HTML5
+- CSS3
+- JavaScript
+- XAMPP (Apache + MySQL)
 
 ---
 
-### 2.2 Envio da mensagem
-
-Após preencher os campos:
-
-1. Clique no botão "Enviar"
-2. A mensagem será exibida na lista abaixo do formulário
-
----
-
-## 3. Regras do sistema
-
-### 3.1 Cadastro de usuário
-
-* Se o e-mail não existir no sistema, um novo usuário será criado
-* Se o e-mail já existir:
-
- o sistema bloqueia a ação
-
----
+## 3. Estrutura do Projeto
 
 
-### 3.2 Imagem de perfil
-
-* Se o usuário enviar uma imagem, ela será utilizada nas mensagens
-* Caso contrário, será utilizada uma imagem padrão
-* A imagem é exibida junto com cada mensagem
-
----
-
-### 3.3 Mensagens
-
-* Usuários válidos podem enviar mensagens
-* As mensagens são exibidas em ordem decrescente (mais recentes primeiro)
-* Cada mensagem apresenta:
-
-  * Nome do usuário
-  * Imagem de perfil
-  * Conteúdo da mensagem
-
----
-
-## 4. Tratamento de erros
-
-### 4.1 E-mail já cadastrado
-
-Mensagem exibida:
-"Email já cadastrado com dados diferentes"
-
-Significado:
-
-* O e-mail já existe no sistema
+TRABALHO-FABIANO-MAIN
+│
+└── ruan e ikaro
+├── css
+│ └── style.css
+├── js
+│ └── script.js
+├── php
+│ ├── uploads
+│ │ └── default.png
+│ ├── conexao.php
+│ ├── index.php
+│ ├── login.php
+│ ├── dashboard.php
+│ └── logout.php
+└── sql
+└── banco.sql
 
 
 ---
 
-### 4.2 Campos obrigatórios
+## 4. Funcionalidades
 
-* O envio pode falhar se campos essenciais não forem preenchidos, como nome ou mensagem
+### 4.1 Cadastro de Usuário
+
+- Entrada de nome, email e senha
+- Upload de imagem de perfil
+- Validação de campos obrigatórios
+- Verificação de email duplicado
+- Armazenamento seguro da senha com hash
+
+### 4.2 Login
+
+- Autenticação por email e senha
+- Verificação com password_verify
+- Criação de sessão com $_SESSION
+- Redirecionamento para dashboard
+
+### 4.3 Dashboard
+
+- Exibição de dados do usuário logado
+- Exibição da imagem de perfil
+- Envio de mensagens
+- Listagem de mensagens em ordem decrescente
+- Limite de caracteres nas mensagens
+
+### 4.4 Logout
+
+- Encerramento da sessão
+- Redirecionamento para tela de login
 
 ---
 
-## 5. Estrutura do projeto
+## 5. Banco de Dados
 
-* index.php: arquivo principal contendo toda a lógica do sistema
-* css/: arquivos de estilo
-* js/: scripts de validação e interação
-* uploads/: armazenamento das imagens dos usuários
+### 5.1 Criação do Banco
 
----
+```sql
+CREATE DATABASE app_php;
+USE app_php;
+5.2 Tabela users
+CREATE TABLE users (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    nome VARCHAR(100) NOT NULL,
+    email VARCHAR(100) NOT NULL UNIQUE,
+    senha VARCHAR(255) NOT NULL,
+    foto VARCHAR(255) DEFAULT 'uploads/default.png'
+);
+5.3 Tabela messages
+CREATE TABLE messages (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    nome VARCHAR(100) NOT NULL,
+    mensagem TEXT NOT NULL,
+    foto VARCHAR(255) NOT NULL,
+    data_envio TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+6. Configuração do Ambiente
+6.1 Instalação
+Instalar XAMPP
+Iniciar Apache e MySQL
+6.2 Diretório do Projeto
 
-## 6. Funcionamento técnico (resumo)
+Copiar a pasta do projeto para:
 
-* Utiliza banco de dados MySQL
-* As senhas são armazenadas de forma criptografada
-* Utiliza sessões para manter os dados do usuário
-* Evita duplicação de e-mails
-* Garante consistência nas informações cadastradas
+C:\xampp\htdocs\
+6.3 Banco de Dados
+Acessar http://localhost/phpmyadmin
+Criar o banco app_php
+Executar os scripts SQL
+7. Execução
 
----
+Acessar no navegador:
 
-## 7. Conclusão
+http://localhost/trabalho-fabiano-main/ruan%20e%20ikaro/php/index.php
+8. Segurança
+Uso de password_hash para armazenamento de senha
+Uso de password_verify para autenticação
+Uso de prepared statements (mysqli)
+Uso de htmlspecialchars para evitar XSS
 
-O sistema foi desenvolvido com o objetivo de ser simples, funcional e acessível, permitindo o cadastro de usuários e a publicação de mensagens de forma direta, sem necessidade de autenticação complexa.
+9. Fluxo do Sistema
+Usuário realiza cadastro
+Dados são armazenados no banco
+Usuário realiza login
+Sessão é criada
+Usuário acessa o dashboard
+Usuário envia mensagem
+Mensagens são exibidas no feed
+Usuário pode sair do sistema
 
-Para utilizar, basta preencher o formulário e enviar uma mensagem.
+10. Limitações
+Tabela messages não possui relacionamento com users
+Não há edição ou exclusão de mensagens
+Upload de imagem com validação básica
+Interface sem sistema de permissões
+11. Melhorias Futuras
+Implementar user_id na tabela messages
+Adicionar edição e exclusão de mensagens
+Melhorar validação de upload
+Criar API para integração com frontend moderno
+Aplicar arquitetura MVC
+
+
+13. Finalidade
+
+Projeto acadêmico para prática de desenvolvimento web com PHP e banco de dados relacional.
