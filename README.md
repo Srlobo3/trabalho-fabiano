@@ -23,18 +23,25 @@ Sistema web desenvolvido em PHP com banco de dados MySQL. Permite cadastro de us
 TRABALHO-FABIANO-MAIN
 │
 └── ruan e ikaro
+
 ├── css
+
 │ └── style.css
+
 ├── js
 │ └── script.js
+
 ├── php
+
 │ ├── uploads
 │ │ └── default.png
+
 │ ├── conexao.php
 │ ├── index.php
 │ ├── login.php
 │ ├── dashboard.php
 │ └── logout.php
+
 └── sql
 └── banco.sql
 
